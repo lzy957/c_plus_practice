@@ -34,12 +34,11 @@ void CAdclassIndex::SetAdIndex(CDataSet fulldataset)
 {
      int adclass[10]={0};
     int const num=this->GetAdIndex(adclass,fulldataset);
-//    for(int i=0;i<num;i++)
-//    {
-//        CDataSet* tempdataset=new CDataSet;
-//        this->adclassdataset.push_back(tempdataset);
-//    }
-    //CDataSet tempdataset[num];
+    for(int i=0;i<num;i++)
+    {
+        CDataSet* tempdataset=new CDataSet;
+        this->adclassdataset.push_back(tempdataset);
+    }
 //    for(int i=0;i<num;i++)
 //    {
 //        CDataSet *member=new CDataSet;
@@ -56,33 +55,34 @@ void CAdclassIndex::SetAdIndex(CDataSet fulldataset)
         switch(temprecord->adclass)
         {
         case 1:
-            tempdset[0].vdataset.push_back(temprecord);
+            (*(this->adclassdataset.begin()))->vdataset.push_back(temprecord);
         break;
         case 2:
-            tempdset[1].vdataset.push_back(temprecord);
+            (*(++this->adclassdataset.begin()))->vdataset.push_back(temprecord);
         break;
         case 3:
         {
-            tempdset[2].vdataset.push_back(temprecord);
+            (*(++(++this->adclassdataset.begin())))->vdataset.push_back(temprecord);
         }
             break;
         case 9:
-            tempdset[3].vdataset.push_back(temprecord);
+            (*(++(++(++this->adclassdataset.begin()))))->vdataset.push_back(temprecord);
             break;
         }
     }
-    for(int i=0;i<num;i++)
-    {
-        this->adclassdataset.push_back(&tempdset[i]);
-    }
+//    for(int i=0;i<num;i++)
+//    {
+//        CDataSet* temp=&tempdset[i];
+//        this->adclassdataset.push_back(temp);
+//    }
 }
 
 void CAdclassIndex::SearchAdIndex()
 {
     int iadclass;
-//    cout<<"input adclass:";
-//    cin>>iadclass;
-    iadclass=1;
+    cout<<"input adclass:";
+    cin>>iadclass;
+//    iadclass=1;
     list<CDataSet*>::iterator i;
     for(i=this->adclassdataset.begin();i!=this->adclassdataset.end();++i)
     {if(iadclass==(*i)->vdataset.at(0)->adclass)

@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     cdataset.cpp \
     cindex.cpp \
     csearch.cpp \
-    cadclassindex.cpp
+    cadclassindex.cpp \
+    cpyindex.cpp
 
 HEADERS += \
     crecord.h \
@@ -17,4 +18,5 @@ HEADERS += \
     cdataset.h \
     cindex.h \
     csearch.h \
-    cadclassindex.h
+    cadclassindex.h \
+    cpyindex.h
