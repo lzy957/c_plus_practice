@@ -11,6 +11,7 @@ public:
     CDataSet();
     ~CDataSet();
     vector<CRecord*> vdataset;
+    void Display();
 };
 
 #endif // CDATASET_H

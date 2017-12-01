@@ -18,6 +18,7 @@ public:
     string adcode_E99;
     int adclass;
     string pinyi;
+    void Display();
 };
 
 #endif // CRECORD_H

@@ -17,6 +17,8 @@ int main()
     adindex.GetAdIndex(adclass,cfile.cdataset);
     for(int i=0;i<10;i++)
         cout<<adclass[i];
+    adindex.SetAdIndex(cfile.cdataset);
+    adindex.SearchAdIndex();
     cout << "Hello World!" << endl;
     return 0;
 }
