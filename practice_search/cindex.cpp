@@ -24,10 +24,11 @@ void CIndex::SearchPYIndex()
     char py[20];
     cout<<"input pinyin:";
     cin>>py;
+//    char py[20]="Guiyang";
     list<CPYIndex*>::iterator i;
     for(i=this->vpyindex.begin();i!=this->vpyindex.end();++i)
     {
-        if((*i)->Letter[1]==py[0]||(*i)->Letter[2]==py[0])
+        if((*i)->Letter[0]==py[0]||(*i)->Letter[1]==py[0])
             (*i)->SearchPy(py);
     }
 }

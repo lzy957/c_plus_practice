@@ -1,6 +1,6 @@
 #ifndef CPYINDEX_H
 #define CPYINDEX_H
-#include<string>
+#include <string>
 #include "cdataset.h"
 #include <list>
 class CPYIndex

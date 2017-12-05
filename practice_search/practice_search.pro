@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     cindex.cpp \
     csearch.cpp \
     cadclassindex.cpp \
-    cpyindex.cpp
+    cpyindex.cpp \
+    cinterface.cpp
 
 HEADERS += \
     crecord.h \
@@ -19,4 +20,5 @@ HEADERS += \
     cindex.h \
     csearch.h \
     cadclassindex.h \
-    cpyindex.h
+    cpyindex.h \
+    cinterface.h

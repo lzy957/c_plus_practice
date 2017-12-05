@@ -77,12 +77,11 @@ void CAdclassIndex::SetAdIndex(CDataSet fulldataset)
 //    }
 }
 
-void CAdclassIndex::SearchAdIndex()
+void CAdclassIndex::SearchAdIndex(CDataSet fulldataset)
 {
-    int iadclass;
-    cout<<"input adclass:";
-    cin>>iadclass;
-//    iadclass=1;
+    this->SetAdIndex(fulldataset);
+    int iadclass=this->interface.InputAdclass();
+//   int iadclass=1;
     list<CDataSet*>::iterator i;
     for(i=this->adclassdataset.begin();i!=this->adclassdataset.end();++i)
     {if(iadclass==(*i)->vdataset.at(0)->adclass)

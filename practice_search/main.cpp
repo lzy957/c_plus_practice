@@ -9,18 +9,18 @@ using namespace std;
 int main()
 {
     CFile cfile;
-//    CSearch csearch;
-    CIndex cindex;
     cfile.LoadFile("//Users//apple//Downloads//data.txt",cfile.cdataset); 
-//    csearch.PinyinSearch(cfile.cdataset);
-//    csearch.NameSearch(cfile.cdataset);
+
+//    CSearch csearch;
+//    csearch.Search(cfile.cdataset);  //遍历搜索、通过name或pinyin
+
 //    CAdclassIndex adindex;
-//    int adclass[10]={0};
-//    adindex.GetAdIndex(adclass,cfile.cdataset);
-//    adindex.SetAdIndex(cfile.cdataset);
-//    adindex.SearchAdIndex();
+//    adindex.SearchAdIndex(cfile.cdataset);//索引adclass
+
+    CIndex cindex;
     cindex.SetPYIndex(cfile.cdataset);
-    cindex.SearchPYIndex();
+    cindex.SearchPYIndex();   //索引拼音首字母
+
     cout << "Hello World!" << endl;
     return 0;
 }
