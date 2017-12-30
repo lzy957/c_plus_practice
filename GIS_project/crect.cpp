@@ -12,22 +12,22 @@ void CRect::Split(CRect* box1,CRect* box2,CRect* box3,CRect* box4)
     unsigned int width;
     length=(this->top - this->bottom)/2;
     width=(this->right - this->left)/2;
-    box1->bottom=this->bottom+length;
-    box1->top=this->top;
-    box1->left=this->left;
-    box1->right=this->left+width;
-    box2->bottom=this->bottom;
-    box2->top=this->top-length;
+    box2->bottom=this->bottom+length;
+    box2->top=this->top;
     box2->left=this->left;
     box2->right=this->left+width;
     box3->bottom=this->bottom;
     box3->top=this->top-length;
-    box3->left=this->left+width;
-    box3->right=this->right;
-    box4->bottom=this->bottom+length;
-    box4->top=this->top;
+    box3->left=this->left;
+    box3->right=this->left+width;
+    box4->bottom=this->bottom;
+    box4->top=this->top-length;
     box4->left=this->left+width;
     box4->right=this->right;
+    box1->bottom=this->bottom+length;
+    box1->top=this->top;
+    box1->left=this->left+width;
+    box1->right=this->right;
 }
 
 int CRect::quadrant(CRect rect,CGeopoint pt)

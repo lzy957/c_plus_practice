@@ -12,4 +12,5 @@ void CSearch::GraphicsSearch(CRect wrect,CGeopoint pt,CCityList fulldataset)
     Quadtree.QuadtreeBuild(fulldataset,wrect);
     quadnode_t* tempt=new quadnode_t();
     tempt=Quadtree.find(Quadtree.QuadTree.root,pt);
+//    cout<<tempt->lst_obj_cities->name;
 }

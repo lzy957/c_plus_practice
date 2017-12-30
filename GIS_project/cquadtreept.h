@@ -32,7 +32,7 @@ typedef enum
 typedef struct quadnode_t
 {
     CRect rect;          //节点所代表的矩形区域
-    list<CChncity*> lst_obj_cities;
+    CChncity* lst_obj_cities;
     struct  quadnode_t* sub[4]; //指向节点的四个孩子
 }quadnode_t;
 
