@@ -29,9 +29,17 @@ void CNameIndex::NameClassify(CCityList fulldataset)
     }
 }
 
-void CNameIndex::NameSearch(string pinyin)
+void CNameIndex::NameSearch(string pinyin,bool is_utf8)
 {
     for(this->i=this->Citiescell.begin();this->i!=this->Citiescell.end();++(this->i))
+        if(is_utf8)
+        {
+            if((*(this->i))->cv->sFirstLetter.find(pinyin)==0)
+                (*this->i)->Display();
+        }
+    else
+        {
         if((*(this->i))->name.find(pinyin)==0)
             (*this->i)->Display();
+        }
 }

@@ -15,7 +15,7 @@ public:
     char Letter[2];
     void SetLetter(char linput[]);
     void NameClassify(CCityList fulldataset);
-    void NameSearch(string pinyin);
+    void NameSearch(string pinyin,bool is_utf8);
 };
 
 #endif // CNAMEINDEX_H
