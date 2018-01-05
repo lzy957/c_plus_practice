@@ -2,39 +2,41 @@
 
 CQuadTreept::CQuadTreept()
 {
-//    this->QuadTree=new quadtree_t();
+    this->QuadTree=new quadtree_t();
 }
 
 CQuadTreept::~CQuadTreept()
 {
-    if(this->QuadTree.root!=nullptr)
+    if(this->QuadTree->root!=nullptr)
     {
-        for(int n=0;n<this->QuadTree.depth;n++)
+        for(int n=0;n<this->QuadTree->depth;n++)
         {
-            for(int k=0;k<this->QuadTree.depth;k++)
+            for(int k=0;k<this->QuadTree->depth;k++)
             {
-                quadnode_t* tp=this->QuadTree.root;
+                quadnode_t* tp=this->QuadTree->root;
                 quadnode_t* tc=new quadnode_t;
                 if(tp->sub!=nullptr)
                 {
                     tc=tp->sub[n];
                 }
                 else
-                    delete(tc);
+                    delete[]tc;
                 tp=tp->sub[n];
             }
-
         }
     }
 }
 
+
 void CQuadTreept::QuadTreeBuild (int depth,CRect rect)
 {
-    this->QuadTree.depth = depth;
+    this->QuadTree->depth = depth;
 
 /*创建分支，root树的根，depth深度，rect根节点代表的矩形区域*/
-    this->QuadCreateBranch (this->QuadTree.root, depth, rect );
+    this->QuadCreateBranch (this->QuadTree->root, depth, rect );
 }
+
+
 
 void CQuadTreept::QuadCreateBranch (quadnode_t* &n,int depth,CRect rect )
 {
@@ -42,8 +44,7 @@ void CQuadTreept::QuadCreateBranch (quadnode_t* &n,int depth,CRect rect )
     {
 //        quadnode_t* tempt=new quadnode_t;
         n = new quadnode_t;    //开辟新节点
-//        n ->rect = rect; //将该节点所代表的矩形区域存储到该节点中
-        n->rect=rect;
+        n ->rect = rect; //将该节点所代表的矩形区域存储到该节点中
         CRect subrect[4];
         rect.Split(subrect, subrect+1, subrect+2, subrect+3);
         //将rect划成四份 rect[UR], rect[UL], rect[LL], rect[LR];
@@ -58,171 +59,76 @@ void CQuadTreept::QuadCreateBranch (quadnode_t* &n,int depth,CRect rect )
 
 void CQuadTreept::QuadtreeBuild(CCityList fulldataset,CRect rect)
   {
-//     this->QuadTree = {};
-    this->QuadTree.root=new quadnode_t;
-    this->QuadTree.root->lst_obj_cities=new CChncity;
-    this->QuadTree.root->lst_obj_cities=NULL;
-    this->QuadTree.root->rect=rect;
+    this->QuadTree->root=new quadnode_t;
+    this->QuadTree->root->lst_obj_cities=new CChncity;
+    this->QuadTree->root->lst_obj_cities=NULL;
+    this->QuadTree->root->rect=rect;
      list<CChncity*>::iterator i;
 //     this->QuadTree.root->lst_obj_cities=i;
      for (i=fulldataset.CityList.begin();i!=fulldataset.CityList.end();++i)      //遍历所有对象
     {
-      this->QuadInsert(*i, this->QuadTree.root);//将i对象插入四叉树
+      this->QuadInsert(*i, this->QuadTree->root);//将i对象插入四叉树
     }
          //剔除多余的节点；       //执行完上面循环后，四叉树中可能有数据为空的叶子节点需要剔除
   }
 
 
-void CQuadTreept::QuadInsert(CChncity* &i,quadnode_t* &n)      //该函数插入后四叉树中的每个节点所存储的对象数量不是1就是0
+void CQuadTreept::QuadInsert(CChncity* i,quadnode_t* &n)      //该函数插入后四叉树中的每个节点所存储的对象数量不是1就是0
   {
-    int length=(n->rect.top-n->rect.bottom)/2;
-    int width=(n->rect.right-n->rect.left)/2;
+    CRect subrect[4];
+    n->rect.Split(subrect, subrect+1, subrect+2, subrect+3);
+    //将rect划成四份 rect[UR], rect[UL], rect[LL], rect[LR];
+
+    CGeopoint pt;
+    pt.x=i->x;
+    pt.y=i->y;
+    int quadrant=0;
+    quadrant=n->rect.quadrant(pt);
+//    int length=(n->rect.top-n->rect.bottom)/2;
+//    int width=(n->rect.right-n->rect.left)/2;
      if(n->sub[0]!=nullptr||n->sub[1]!=nullptr||n->sub[2]!=nullptr||n->sub[3]!=nullptr)//（节点n有孩子）
      {
-         CRect subrect[4];
-         n->rect.Split(subrect, subrect+1, subrect+2, subrect+3);
-         //将rect划成四份 rect[UR], rect[UL], rect[LL], rect[LR];
-
-         if(i->y>(n->rect.bottom+length)&&i->y<n->rect.top)
+         if(quadrant!=-1)
+         {if(n->sub[quadrant]==nullptr)
          {
-             if(i->x>(n->rect.left+width)&&i->x<n->rect.right)
-             {
-                 if(n->sub[UR]==nullptr)
-                 {
-                     n->sub[UR]=new quadnode_t;
-                     n->sub[UR]->rect=subrect[UR];
-                 }
-//                 n->sub[UR]=new quadnode_t;
-//                 n->sub[UR]->rect=subrect[UR];
-                 this->QuadInsert(i,n->sub[UR]);
-             }
-             else if(i->x<(n->rect.left+width)&&i->x>n->rect.left)
-             {
-                 if(n->sub[UL]==nullptr)
-                 {
-                     n->sub[UL]=new quadnode_t;
-                     n->sub[UL]->rect=subrect[UL];
-                 }
-//                 n->sub[UL]=new quadnode_t;
-//                 n->sub[UL]->rect=subrect[UL];
-                 this->QuadInsert(i,n->sub[UL]);
-             }
+             n->sub[quadrant]=new quadnode_t();
+             n->sub[quadrant]->rect=subrect[quadrant];
          }
-         else if(i->y<(n->rect.bottom+length)&&i->y>n->rect.bottom)
-         {
-             if(i->x<(n->rect.left+width)&&i->x>n->rect.left)
-             {
-                 if(n->sub[LL]==nullptr)
-                 {
-                     n->sub[LL]=new quadnode_t;
-                     n->sub[LL]->rect=subrect[LL];
-                 }
-//                 n->sub[LL]=new quadnode_t;
-//                 n->sub[LL]->rect=subrect[LL];
-                 this->QuadInsert(i,n->sub[LL]);
-             }
-             else if(i->x>(n->rect.left+width)&&i->x<n->rect.right)
-             {
-                 if(n->sub[LR]==nullptr)
-                 {
-                     n->sub[LR]=new quadnode_t;
-                     n->sub[LR]->rect=subrect[LR];
-                 }
-//                 n->sub[LR]=new quadnode_t;
-//                 n->sub[LR]->rect=subrect[LR];
-                 this->QuadInsert(i,n->sub[LR]);
-             }
+         this->QuadInsert(i,n->sub[quadrant]);
          }
 //    通过划分区域判断i应该放置于n节点的哪一个孩子节点c；
     }
      else if((n->lst_obj_cities)!=NULL)  //（节点n存储了一个对象）
      {
-          CRect subrect[4];
-          n->rect.Split(subrect, subrect+1, subrect+2, subrect+3);
-          //将rect划成四份 rect[UR], rect[UL], rect[LL], rect[LR];
 
 //         this->QuadCreateBranch(n,1,n->rect);  //为n节点创建四个孩子；
-         if(n->lst_obj_cities->y>(n->rect.bottom+length)&&n->lst_obj_cities->y<n->rect.top)
-         {
-             if(n->lst_obj_cities->x>(n->rect.left+width)&&n->lst_obj_cities->x<n->rect.right)
-             {
-                 n->sub[UR]=new quadnode_t;
-                 n->sub[UR]->rect=subrect[UR];
-                 n->sub[UR]->lst_obj_cities=new CChncity;
-                 n->sub[UR]->lst_obj_cities=n->lst_obj_cities;
-                 n->lst_obj_cities=nullptr;
-             }
-             else if(n->lst_obj_cities->x<(n->rect.left+width)&&n->lst_obj_cities->x>n->rect.left)
-             {
-                 n->sub[UL]=new quadnode_t;
-                 n->sub[UL]->rect=subrect[UL];
-                 n->sub[UL]->lst_obj_cities=new CChncity;
-                 n->sub[UL]->lst_obj_cities=n->lst_obj_cities;
-                 n->lst_obj_cities=nullptr;
-            }
-         }
-         else if(n->lst_obj_cities->y<(n->rect.bottom+length)&&n->lst_obj_cities->y>n->rect.bottom)
-         {
-             if(n->lst_obj_cities->x<(n->rect.left+width)&&n->lst_obj_cities->x>n->rect.left)
-             {
-                 n->sub[LL]=new quadnode_t;
-                 n->sub[LL]->rect=subrect[LL];
-                 n->sub[LL]->lst_obj_cities=new CChncity;
-                 n->sub[LL]->lst_obj_cities=n->lst_obj_cities;
-                 n->lst_obj_cities=nullptr;
-             }
-             else if(n->lst_obj_cities->x>(n->rect.left+width)&&n->lst_obj_cities->x<n->rect.right)
-             {
-                 n->sub[LR]=new quadnode_t;
-                 n->sub[LR]->rect=subrect[LR];
-                 n->sub[LR]->lst_obj_cities=new CChncity;
-                 n->sub[LR]->lst_obj_cities=n->lst_obj_cities;
-                 n->lst_obj_cities=nullptr;
-             }
-}
 
-         if(i->y>(n->rect.bottom+length)&&i->y<n->rect.top)
-         {
-             if(i->x>(n->rect.left+width)&&i->x<n->rect.right)
-             {
-                 if(n->sub[UR]==nullptr)
-                 {
-                     n->sub[UR]=new quadnode_t;
-                     n->sub[UR]->rect=subrect[UR];
-                 }
-                 this->QuadInsert(i,n->sub[UR]);
-             }
-             else if(i->x<(n->rect.left+width)&&i->x>n->rect.left)
-             {
-                 if(n->sub[UL]==nullptr)
-                 {
-                     n->sub[UL]=new quadnode_t;
-                     n->sub[UL]->rect=subrect[UL];
-                 }
-                 this->QuadInsert(i,n->sub[UL]);
-             }
-         }
-         else if(i->y<(n->rect.bottom+length)&&i->y>n->rect.bottom)
-         {
-             if(i->x<(n->rect.left+width)&&i->x>n->rect.left)
-             {
-                 if(n->sub[LL]==nullptr)
-                 {
-                     n->sub[LL]=new quadnode_t;
-                     n->sub[LL]->rect=subrect[LL];
-                 }
-                 this->QuadInsert(i,n->sub[LL]);
-             }
-             else if(i->x>(n->rect.left+width)&&i->x<n->rect.right)
-             {
-                 if(n->sub[LR]==nullptr)
-                 {
-                     n->sub[LR]=new quadnode_t;
-                     n->sub[LR]->rect=subrect[LR];
-                 }
-                 this->QuadInsert(i,n->sub[LR]);
-             }
-         }
+          CGeopoint pcity;
+          pcity.x=n->lst_obj_cities->x;
+          pcity.y=n->lst_obj_cities->y;
+          int quadrantcity=n->rect.quadrant(pcity);
+          if(quadrantcity!=-1)
+          {
+              n->sub[quadrantcity]=new quadnode_t();
+              n->sub[quadrantcity]->rect=subrect[quadrantcity];
+              n->sub[quadrantcity]->lst_obj_cities=new CChncity;
+              n->sub[quadrantcity]->lst_obj_cities=n->lst_obj_cities;
+              n->lst_obj_cities=nullptr;
+          }
+          CGeopoint pi;
+          pi.x=i->x;
+          pi.y=i->y;
+          int quadranti=n->rect.quadrant(pi);
+          if(quadranti!=-1)
+          {
+              if(n->sub[quadranti]==nullptr)
+              {
+                  n->sub[quadranti]=new quadnode_t();
+                  n->sub[quadranti]->rect=subrect[quadranti];
+              }
+              this->QuadInsert(i,n->sub[quadranti]);
+          }
+
 //    通过划分区域判断i应该放置于n节点的哪一个孩子节点c；
          }
 
@@ -234,7 +140,7 @@ void CQuadTreept::QuadInsert(CChncity* &i,quadnode_t* &n)      //该函数插入
          CChncity* temp=new CChncity;
          temp=i;
          n->lst_obj_cities=i;
-         this->QuadTree.depth++;
+         this->QuadTree->depth++;
 //    n->lst_obj_cities.push_back(temp);//将i存储到节点n中；
  }
   }
@@ -242,32 +148,12 @@ void CQuadTreept::QuadInsert(CChncity* &i,quadnode_t* &n)      //该函数插入
 quadnode_t* CQuadTreept::find (quadnode_t* n,CGeopoint pt)
   {
     quadnode_t* temp;
-//    list<CChncity*>::iterator i;
-//    for(i=n->lst_obj_cities.begin();i!=n->lst_obj_cities.end();++i)
-//    {
-//        if(((*i)->x==pt.x)&&((*i)->y==pt.y))  //(n节点所存的对象位置为 pos所指的位置 )
 
     if(n->lst_obj_cities!=nullptr&&(n->lst_obj_cities->x==pt.x)&&(n->lst_obj_cities->y==pt.y))  //(n节点所存的对象位置为 pos所指的位置 )
             return n;
-        if(n->rect.quadrant(n->rect,pt)==0) //( pos位于第一象限 )
-            temp = find ( n->sub[UR], pt );
-        else if(n->rect.quadrant(n->rect,pt)==1) //( pos位于第二象限)
-            temp = find ( n->sub[UL], pt );
-        else if(n->rect.quadrant(n->rect,pt)==2) //( pos位于第三象限 )
-            temp = find ( n->sub[LL], pt );
-        else  //pos 位于第四象限
-            temp = find ( n->sub[LR], pt );
+    int quadrant=n->rect.quadrant(pt);
+    if(quadrant!=-1)
+        temp=find(n->sub[quadrant],pt);
         return temp;
-//      if((n->lst_obj_cities->x==pt.x)&&(n->lst_obj_cities->y==pt.y))  //(n节点所存的对象位置为 pos所指的位置 )
-//          return n;
-//      if(n->rect.quadrant(n->rect,pt)==0) //( pos位于第一象限 )
-//          temp = find ( n->sub[UR], pt );
-//      else if(n->rect.quadrant(n->rect,pt)==1) //( pos位于第二象限)
-//          temp = find ( n->sub[UL], pt );
-//      else if(n->rect.quadrant(n->rect,pt)==2) //( pos位于第三象限 )
-//          temp = find ( n->sub[LL], pt );
-//      else  //pos 位于第四象限
-//          temp = find ( n->sub[LR], pt );
-//      return temp;
-//    }
+
   }

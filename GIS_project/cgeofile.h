@@ -15,13 +15,14 @@ class CGeoFile
 public:
     CGeoFile();
     ~CGeoFile();
-    void FileOpen(const char* filename);
+    void GraphicFileOpen(const char* filename);
     void SybFileOpen(const char* filename);
-//    list<CGeomap*> maps;
     CGeomap* map;
     CListSymbol* Symbolset;
     void CityFileOpen(const char* filename);
     CCityList Cityset;
+    void MatchSymbol(CListSymbol* Symbolset);
+    void FileOpen();
 };
 
 #endif // CGEOFILE_H

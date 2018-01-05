@@ -20,5 +20,5 @@ void CCityList::Display()
 void CCityList::GetFirstLetters()
 {
     for( this->cityi=this->CityList.begin();this->cityi!=this->CityList.end();++this->cityi)
-        (*this->cityi)->FirstLetter();
+        (*this->cityi)->cv->FirstLetter((*this->cityi)->name);
 }

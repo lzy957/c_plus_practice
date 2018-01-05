@@ -24,14 +24,19 @@ void CIndex::SearchNameIndex(CCityList fulldataset)
 //    char py[20];
 //    cout<<"input name:";
 //    cin>>py;
-    string py="北京";
+    string py="Beijing";
     CChncity* tempt=new CChncity;
     tempt->name=py;
-    tempt->UTF_FirstLetter();
+    tempt->cv->FirstLetter(py);
     list<CNameIndex*>::iterator i;
     for(i=this->Nameindex.begin();i!=this->Nameindex.end();++i)
     {
-        if((*i)->Letter[0]==tempt->sFirstLetter[0]||(*i)->Letter[1]==tempt->sFirstLetter[0])
+        if((*i)->Letter[0]==tempt->cv->sFirstLetter[0]||(*i)->Letter[1]==tempt->cv->sFirstLetter[0])
             (*i)->NameSearch(py);
     }
+//    for(i=this->Nameindex.begin();i!=this->Nameindex.end();++i)
+//    {
+//        if((*i)->Letter[0]==py[0]||(*i)->Letter[1]==py[0])
+//            (*i)->NameSearch(py);
+//    }
 }

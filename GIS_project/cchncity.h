@@ -1,22 +1,22 @@
 #ifndef CCHNCITY_H
 #define CCHNCITY_H
 #include <string>
+#include "characonvert.h"
+#include <QtOpenGL>
 using namespace std;
 
-static   bool   In(wchar_t   start,   wchar_t   end,   wchar_t   code);
 class CChncity
 {
 public:
     CChncity();
+    ~CChncity();
+
     string name;
-    string sFirstLetter;
     int x;
     int y;
+
+    Characonvert* cv;
     void Display();
-    char convert(wchar_t n);
-//    string getChineseSpell();
-    void FirstLetter();
-    void UTF_FirstLetter();
 
 };
 

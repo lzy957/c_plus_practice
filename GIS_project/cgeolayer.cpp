@@ -3,6 +3,7 @@
 CGeolayer::CGeolayer()
 {
     this->layername=new char(20);
+    symbol=new CSymbol;
 }
 
 CGeolayer::~CGeolayer()

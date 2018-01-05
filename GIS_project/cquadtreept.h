@@ -4,20 +4,7 @@
 #include "ccitylist.h"
 #include "cgeopoint.h"
 
-/* 一个矩形区域的象限划分：:
 
-       UL(1)   |    UR(0)
-     ----------|-----------
-       LL(2)   |    LR(3)
-以下对该象限类型的枚举
-*/
-typedef enum
-{
-    UR = 0,
-    UL = 1,
-    LL = 2,
-    LR = 3
-}QuadrantEnum;
 
 ///* 矩形结构 */
 //typedef struct quadrect_t
@@ -48,11 +35,17 @@ class CQuadTreept
 public:
     CQuadTreept();
     ~CQuadTreept();
-    quadtree_t QuadTree;
+
+    quadtree_t* QuadTree;
+    //完全四叉树
     void QuadTreeBuild (int depth,CRect rect);
     void QuadtreeBuild(CCityList fulldataset,CRect rect);
-    void QuadInsert(CChncity* &i,quadnode_t* &n);
+
+    //动态四叉树
+    void QuadInsert(CChncity* i,quadnode_t* &n);
     void QuadCreateBranch(quadnode_t* &n,int depth,CRect rect);
+
+    //检索
     quadnode_t* find (quadnode_t* n,CGeopoint pt);
 
 };

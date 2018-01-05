@@ -3,6 +3,7 @@
 #include "cgeometry.h"
 #include <list>
 #include <string>
+#include "clistsymbol.h"
 using namespace std;
 
 class CGeolayer
@@ -14,6 +15,8 @@ public:
     int namesize;
     string layername;
     int objectnum;
+    CSymbol* symbol;
+//    void MatchSymbol();
 //    bool isline;
 //    float linewidth;
 //    int lR,lG,lB;

@@ -30,24 +30,30 @@ void CRect::Split(CRect* box1,CRect* box2,CRect* box3,CRect* box4)
     box1->right=this->right;
 }
 
-int CRect::quadrant(CRect rect,CGeopoint pt)
+int CRect::quadrant(CGeopoint pt)
 {
-//    CRect sub[3];
-//    rect.Split(sub,sub+1,sub+2,sub+3);
-    int length=(rect.top-rect.bottom)/2;
-    int width=(rect.right-rect.left)/2;
-    if(pt.y>(rect.bottom+length)&&pt.y<rect.top)
-    {
-        if(pt.x>(rect.left+width)&&pt.x<rect.right)
-            return 0;
-        else if(pt.x<(rect.left+width)&&pt.x>rect.left)
-            return 1;
-    }
-    else if(pt.y<(rect.bottom+length)&&pt.y>rect.bottom)
-    {
-        if(pt.x<(rect.left+width)&&pt.x>rect.left)
-            return 2;
-        else if(pt.x>(rect.left+width)&&pt.x<rect.right)
-            return 3;
-    }
+    CRect sub[4];
+    this->Split(sub,sub+1,sub+2,sub+3);
+//    int length=(rect.top-rect.bottom)/2;
+//    int width=(rect.right-rect.left)/2;
+    if(sub[UR].contain(pt))
+        return UR;
+    else if(sub[UL].contain(pt))
+        return UL;
+    else if(sub[LL].contain(pt))
+        return LL;
+    else if(sub[LR].contain(pt))
+        return LR;
+    else return -1;
+}
+
+int CRect::contain(CGeopoint pt)
+{
+    int x=pt.x;
+    int y=pt.y;
+    if(x>this->left&&x<this->right&&y>this->bottom&&y<this->top)
+        return 1;
+    else
+        return 0;
+
 }

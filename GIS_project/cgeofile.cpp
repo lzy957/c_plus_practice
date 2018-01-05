@@ -19,7 +19,7 @@ CGeoFile::~CGeoFile()
         delete(*i);
 }
 
-void CGeoFile::FileOpen(const char* filename)
+void CGeoFile::GraphicFileOpen(const char* filename)
  {
      FILE *fp;
      fp=fopen(filename,"r");
@@ -219,4 +219,30 @@ void CGeoFile::CityFileOpen(const char *filename)
         tempcity->y=atoi(strtok(NULL,"\n"));
         this->Cityset.CityList.push_back(tempcity);
     }
+}
+
+void CGeoFile::MatchSymbol(CListSymbol *Symbolset)
+{
+    list<CSymbol*>::iterator i;
+    list<CGeolayer*>::iterator j;
+    for(i=Symbolset->Symbollist.begin();i!=Symbolset->Symbollist.end();++i)
+    {
+        for(j=this->map->Geolayers.begin();j!=this->map->Geolayers.end();++j)
+        {
+            if((*i)->layernames.find((*j)->layername)==0)
+            {
+                CSymbol* tempt=new CSymbol;
+                tempt=*i;
+                (*j)->symbol=tempt;
+            }
+        }
+    }
+}
+
+void CGeoFile::FileOpen()
+{
+    this->GraphicFileOpen("//Users//apple//Downloads//面向对象的 GIS//practise_3//data//china.dat");
+    this->SybFileOpen("//Users//apple//Downloads//面向对象的 GIS//practise_3//data//china.opt");
+    this->CityFileOpen("//Users//apple//Downloads//面向对象的 GIS//practise_3//data//chnCity.txt");
+    this->MatchSymbol(Symbolset);
 }

@@ -1,8 +1,11 @@
+QT += gui
+QT += widgets
+QT += opengl
+
 TEMPLATE = app
 CONFIG += console c++11
 CONFIG -= app_bundle
-CONFIG -= qt
-QT += core gui widgets
+#CONFIG -= qt
 
 SOURCES += main.cpp \
     cgeomap.cpp \
@@ -22,7 +25,8 @@ SOURCES += main.cpp \
     cgeofile.cpp \
     cgeolayer.cpp \
     character_encode.cpp \
-    cutftogb.cpp
+    cutftogb.cpp \
+    characonvert.cpp
 
 HEADERS += \
     cgeomap.h \
@@ -42,4 +46,5 @@ HEADERS += \
     cgeofile.h \
     cgeolayer.h \
     character_encode.h \
-    cutftogb.h
+    cutftogb.h \
+    characonvert.h

@@ -22,8 +22,8 @@ void CNameIndex::NameClassify(CCityList fulldataset)
     fulldataset.GetFirstLetters();
     for(this->i=fulldataset.CityList.begin();this->i!=fulldataset.CityList.end();++this->i)
     {
-        if((*i)->sFirstLetter.find(this->Letter[0])==0
-                ||(*i)->sFirstLetter.find(this->Letter[1])==0)
+        if((*i)->cv->sFirstLetter.find(this->Letter[0])==0
+                ||(*i)->cv->sFirstLetter.find(this->Letter[1])==0)
             this->Citiescell.push_back(*i);
 
     }
