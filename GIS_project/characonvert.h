@@ -20,7 +20,7 @@ class Characonvert
 {
 public:
     Characonvert();
-
+     ~Characonvert();
     string sFirstLetter;
     char convert(wchar_t n);
     void FirstLetter(string name);

@@ -12,7 +12,11 @@ public:
     ~CGeomap();
     CRect wrect;
     int layernum;
+    int scalex;
+    int scaley;
+    CProject* proj;
     list<CGeolayer*> Geolayers;
+    void Draw();
 };
 
 #endif // CGEOMAP_H

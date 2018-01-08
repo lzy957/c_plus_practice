@@ -29,17 +29,26 @@ void CNameIndex::NameClassify(CCityList fulldataset)
     }
 }
 
-void CNameIndex::NameSearch(string pinyin,bool is_utf8)
+CChncity* CNameIndex::NameSearch(string pinyin, bool is_utf8, CProject *proj)
 {
+//    CChncity* tempt=new CChncity();
     for(this->i=this->Citiescell.begin();this->i!=this->Citiescell.end();++(this->i))
         if(is_utf8)
         {
             if((*(this->i))->cv->sFirstLetter.find(pinyin)==0)
-                (*this->i)->Display();
+            {
+                return *i;
+//                (*this->i)->Mark(proj);
+//                (*this->i)->Display();
+            }
         }
     else
         {
         if((*(this->i))->name.find(pinyin)==0)
-            (*this->i)->Display();
+        {
+            return *i;
+//            (*this->i)->Mark(proj);
+//            (*this->i)->Display();
+        }
         }
 }

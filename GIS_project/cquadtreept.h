@@ -46,7 +46,8 @@ public:
     void QuadCreateBranch(quadnode_t* &n,int depth,CRect rect);
 
     //检索
-    quadnode_t* find (quadnode_t* n,CGeopoint pt);
+    quadnode_t* find (quadnode_t* &n,CGeopoint pt);
+    void deletenode(quadnode_t* &n);
 
 };
 

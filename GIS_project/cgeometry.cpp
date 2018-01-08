@@ -4,3 +4,8 @@ CGeometry::CGeometry()
 {
 
 }
+
+void CGeometry::Draw(CProject *proj, CSymbol symbol)
+{
+
+}

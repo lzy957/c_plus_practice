@@ -4,8 +4,9 @@ QT += opengl
 
 TEMPLATE = app
 CONFIG += console c++11
-CONFIG -= app_bundle
+#CONFIG -= app_bundle
 #CONFIG -= qt
+LIBS+= -framework opengl -framework glut
 
 SOURCES += main.cpp \
     cgeomap.cpp \
@@ -24,9 +25,10 @@ SOURCES += main.cpp \
     ccitylist.cpp \
     cgeofile.cpp \
     cgeolayer.cpp \
-    character_encode.cpp \
-    cutftogb.cpp \
-    characonvert.cpp
+    characonvert.cpp \
+    cmyopenglwidgt.cpp \
+    cproject.cpp \
+    mainwindow.cpp
 
 HEADERS += \
     cgeomap.h \
@@ -45,6 +47,10 @@ HEADERS += \
     ccitylist.h \
     cgeofile.h \
     cgeolayer.h \
-    character_encode.h \
-    cutftogb.h \
-    characonvert.h
+    characonvert.h \
+    cmyopenglwidgt.h \
+    cproject.h \
+    mainwindow.h
+
+FORMS += \
+    mainwindow.ui

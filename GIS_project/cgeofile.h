@@ -7,7 +7,7 @@
 #include <list>
 #include "clistsymbol.h"
 #include "ccitylist.h"
-
+#include "cproject.h"
 using namespace std;
 
 class CGeoFile

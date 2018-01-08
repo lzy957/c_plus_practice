@@ -1,7 +1,7 @@
 #ifndef CGEOPOINT_H
 #define CGEOPOINT_H
 #include "cgeometry.h"
-
+#include <QtOpenGL>
 
 class CGeopoint : public CGeometry
 {
@@ -10,7 +10,7 @@ public:
     int x;
     int y;
     void DataLoad();
-    void Draw();
+    void Draw(CProject* proj,CSymbol symbol);
 };
 
 #endif // CGEOPOINT_H

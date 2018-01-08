@@ -5,6 +5,11 @@ Characonvert::Characonvert()
  this->sFirstLetter="";
 }
 
+Characonvert::~Characonvert()
+{
+    this->sFirstLetter="";
+}
+
 bool In(wchar_t start, wchar_t end, wchar_t code)
 {
     if   (code>=start&&code<=end)

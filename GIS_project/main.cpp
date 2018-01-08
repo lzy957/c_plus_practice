@@ -1,16 +1,18 @@
 #include <iostream>
+#include <QApplication>
 #include "cgeofile.h"
 #include "cindex.h"
 #include "csearch.h"
+#include "cmyopenglwidgt.h"
+#include "mainwindow.h"
+#include "cgeofile.h"
 using namespace std;
 
-int main()
+int main(int argc,char* argv[])
 {
-    CGeoFile file;
-    file.FileOpen();
     // 名称搜索
-    CIndex index;
-    index.SearchNameIndex(file.Cityset);
+//CGeoFile file;
+//file.FileOpen();
 
     //空间搜索
 //    CSearch spatialsearch;
@@ -20,7 +22,13 @@ int main()
 //    pt.y=(*file.Cityset.CityList.begin())->y;
 
 //    spatialsearch.GraphicsSearch(file.map->wrect,pt,file.Cityset);
+    //OpenGL图形绘制
+
+    QApplication app(argc,argv);
+    MainWindow w;
+    w.show();
 
     cout << "Hello World!" << endl;
-    return 0;
+//    return 0;
+    return app.exec();
 }

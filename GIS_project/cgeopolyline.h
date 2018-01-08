@@ -12,7 +12,7 @@ public:
     ~CGeopolyline();
     list<CGeopoint*> Polyline;
     void DataLoad();
-    void Draw();
+    void Draw(CProject *proj,CSymbol symbol);
 };
 
 #endif // CGEOPOLYLINE_H

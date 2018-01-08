@@ -11,7 +11,7 @@ public:
 
     CQuadTreept Quadtree;
     CIndex index;
-    void GraphicsSearch(CRect wrect,CGeopoint pt,CCityList fulldataset);
+    CChncity* GraphicsSearch(CRect wrect,CGeopoint pt,CCityList fulldataset);
 };
 
 #endif // CSEARCH_H

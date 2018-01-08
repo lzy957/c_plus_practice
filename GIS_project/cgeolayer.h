@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include "clistsymbol.h"
+#include "cproject.h"
 using namespace std;
 
 class CGeolayer
@@ -16,12 +17,7 @@ public:
     string layername;
     int objectnum;
     CSymbol* symbol;
-//    void MatchSymbol();
-//    bool isline;
-//    float linewidth;
-//    int lR,lG,lB;
-//    bool isfilled;
-//    int fR,fG,fB;
+    void Draw(CProject* proj);
 };
 
 #endif // CGEOLAYER_H

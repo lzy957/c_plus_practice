@@ -14,6 +14,7 @@ public:
     list<CChncity*>::iterator cityi;
     void GetFirstLetters();
     void Display();
+    void Draw(CProject* proj);
 };
 
 #endif // CCITYLIST_H

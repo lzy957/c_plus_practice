@@ -35,6 +35,11 @@ void CGeoFile::GraphicFileOpen(const char* filename)
      fscanf(fp,"%d,%d",&r,&b);
      map->wrect.right=r;
      map->wrect.bottom=b;
+     map->proj=new CProject;
+     map->proj->scaley=t-b;
+     map->proj->scalex=r-l;
+     map->scaley=t-b;
+     map->scalex=r-l;
      while(!feof(fp))
     {
 //        CGeomap* tempmap=new CGeomap;
@@ -75,15 +80,15 @@ void CGeoFile::GraphicFileOpen(const char* filename)
                 {
                     CGeometry* tempobject=new CGeopolyline;
                     tempobject->type=1;
-                    do
+                    fscanf(fp,"%d,%d",&x,&y);
+                    while(x!=-99999)
                     {
                         CGeopoint* pt=new CGeopoint;
-                        fscanf(fp,"%d,%d",&x,&y);
                         pt->x=x;
                         pt->y=y;
                         ((CGeopolyline*) tempobject)->Polyline.push_back(pt);
+                        fscanf(fp,"%d,%d",&x,&y);
                       }
-                    while(x!=-99999);
                     templayer->Geoobjects.push_back(tempobject);
                     break;
                 }
@@ -91,22 +96,22 @@ void CGeoFile::GraphicFileOpen(const char* filename)
                 {
                     CGeometry* tempobject=new CGeopolygon;
                     tempobject->type=2;
-                    do
+                    fscanf(fp,"%d,%d",&x,&y);
+                    while(x!=-99999)
                     {
                         CGeopoint *pt=new CGeopoint;
-                        fscanf(fp,"%d,%d",&x,&y);
                         pt->x=x;
                         pt->y=y;
                         ((CGeopolygon*) tempobject)->Polygon.push_back(pt);
+                        fscanf(fp,"%d,%d",&x,&y);
                     }
-                    while(x!=-99999);
                     templayer->Geoobjects.push_back(tempobject);
                     break;
                 }
                 }
             }
             this->map->Geolayers.push_back(templayer);
-            fscanf(fp,"%s",a);
+//            fscanf(fp,"%s",a);
         }
 //        this->maps.push_back(tempmap);
     }
@@ -134,10 +139,16 @@ void CGeoFile::SybFileOpen(const char *filename)
             fscanf(fp,"%s",a);
             tempsymbol->layernames=a;
             fscanf(fp,"%d",&tempsymbol->isline);
-            fscanf(fp,"%f",&tempsymbol->linewidth);
-            fscanf(fp,"%d,%d,%d",&tempsymbol->lR,&tempsymbol->lG,&tempsymbol->lB);
+             if(tempsymbol->isline==1)
+            {
+                 fscanf(fp,"%lf",&tempsymbol->linewidth);
+                 fscanf(fp,"%d,%d,%d",&tempsymbol->lR,&tempsymbol->lG,&tempsymbol->lB);
+            }
             fscanf(fp,"%d",&tempsymbol->isfilled);
-            fscanf(fp,"%d,%d,%d",&tempsymbol->fR,&tempsymbol->fG,&tempsymbol->fB);
+            if(tempsymbol->isfilled==1)
+            {
+                fscanf(fp,"%d,%d,%d",&tempsymbol->fR,&tempsymbol->fG,&tempsymbol->fB);
+            }
             this->Symbolset->Symbollist.push_back(tempsymbol);
         }
     }

@@ -9,7 +9,7 @@ public:
 
     list<CNameIndex* > Nameindex;
     void NameIndexset(CCityList fulldataset);
-    void SearchNameIndex(CCityList fulldataset);
+    CChncity* SearchNameIndex(QString input,CCityList fulldataset,CProject* proj);
 };
 
 #endif // CINDEX_H

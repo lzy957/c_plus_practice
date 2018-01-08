@@ -7,24 +7,11 @@ CQuadTreept::CQuadTreept()
 
 CQuadTreept::~CQuadTreept()
 {
-    if(this->QuadTree->root!=nullptr)
-    {
-        for(int n=0;n<this->QuadTree->depth;n++)
-        {
-            for(int k=0;k<this->QuadTree->depth;k++)
-            {
-                quadnode_t* tp=this->QuadTree->root;
-                quadnode_t* tc=new quadnode_t;
-                if(tp->sub!=nullptr)
-                {
-                    tc=tp->sub[n];
-                }
-                else
-                    delete[]tc;
-                tp=tp->sub[n];
-            }
-        }
-    }
+//    if(QuadTree!=0x00)
+//    {
+//        deletenode(QuadTree->root);
+//        QuadTree->depth=0;
+//    }
 }
 
 
@@ -59,7 +46,7 @@ void CQuadTreept::QuadCreateBranch (quadnode_t* &n,int depth,CRect rect )
 
 void CQuadTreept::QuadtreeBuild(CCityList fulldataset,CRect rect)
   {
-    this->QuadTree->root=new quadnode_t;
+    this->QuadTree->root=new quadnode_t();
     this->QuadTree->root->lst_obj_cities=new CChncity;
     this->QuadTree->root->lst_obj_cities=NULL;
     this->QuadTree->root->rect=rect;
@@ -145,15 +132,49 @@ void CQuadTreept::QuadInsert(CChncity* i,quadnode_t* &n)      //该函数插入�
  }
   }
 
-quadnode_t* CQuadTreept::find (quadnode_t* n,CGeopoint pt)
+quadnode_t* CQuadTreept::find (quadnode_t* &n,CGeopoint pt)
   {
-    quadnode_t* temp;
-
-    if(n->lst_obj_cities!=nullptr&&(n->lst_obj_cities->x==pt.x)&&(n->lst_obj_cities->y==pt.y))  //(n节点所存的对象位置为 pos所指的位置 )
+    quadnode_t* temp=new quadnode_t();
+    CRect recttemp;
+    recttemp.left=pt.x-30000;
+    recttemp.right=pt.x+30000;
+    recttemp.top=pt.y+30000;
+    recttemp.bottom=pt.y-30000;
+    CGeopoint ptempt;
+//    if(n->lst_obj_cities!=nullptr&&(n->lst_obj_cities->x==pt.x)&&(n->lst_obj_cities->y==pt.y))  //(n节点所存的对象位置为 pos所指的位置 )
+    if(n->lst_obj_cities!=nullptr)  //(n节点所存的对象位置为 pos所指的位置 )
+        {
+            ptempt.x=n->lst_obj_cities->x;
+            ptempt.y=n->lst_obj_cities->y;
+            if(recttemp.contain(ptempt))
             return n;
+         }
     int quadrant=n->rect.quadrant(pt);
-    if(quadrant!=-1)
+    if(quadrant!=-1&&n->sub[quadrant]!=0x00)
         temp=find(n->sub[quadrant],pt);
+    else
+        return 0;
         return temp;
 
   }
+
+void CQuadTreept::deletenode(quadnode_t *&n)
+{
+    for(int i=0;i<4;i++)
+    {
+        if(n->sub[i]!=0x00)
+        {
+            deletenode(n->sub[i]);
+        }
+    }
+    if(n->sub[0]==0x00&&n->sub[1]==0x00&&n->sub[2]==0x00&&n->sub[3]==0x00&&n!=0x00)
+    {
+        if(n->lst_obj_cities!=0x00)
+        {
+            delete(n->lst_obj_cities);
+            n->lst_obj_cities=0x00;
+        }
+        delete[]n;
+        n=0x00;
+    }
+}

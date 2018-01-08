@@ -18,16 +18,26 @@ void CIndex::NameIndexset(CCityList fulldataset)
     }
 }
 
-void CIndex::SearchNameIndex(CCityList fulldataset)
+CChncity* CIndex::SearchNameIndex(QString input, CCityList fulldataset, CProject *proj)
 {
     this->NameIndexset(fulldataset);
 //    char py[20];
 //    cout<<"input name:";
 //    cin>>py;
-    char* py=new char(20);
-    py="北京";
+//    char* py=new char(20);
+//    py="北京";
+    char*  py;
+    string name=input.toStdString();
+//    QByteArray ba = input.toLatin1();
+//    py=ba.data();
+//    char* py=input.toStdString();
     CChncity* tempt=new CChncity;
-    tempt->name=py;
+
+    tempt->name=input.toStdString();
+    int len = name.length();
+    py=(char *)malloc((len+1)*sizeof(char));
+    name.copy(py,len,0);
+
     char* output=new char[20];
     bool isutf8=tempt->cv->is_utf8_string(py);
     if (isutf8)
@@ -43,9 +53,9 @@ void CIndex::SearchNameIndex(CCityList fulldataset)
         if((*i)->Letter[0]==tempt->cv->sFirstLetter[0]||(*i)->Letter[1]==tempt->cv->sFirstLetter[0])
         {
             if(isutf8)
-                (*i)->NameSearch(tempt->cv->sFirstLetter,isutf8);
+                return (*i)->NameSearch(tempt->cv->sFirstLetter,isutf8,proj);
             else
-            (*i)->NameSearch(py,isutf8);
+            return (*i)->NameSearch(py,isutf8,proj);
     }
 //    for(i=this->Nameindex.begin();i!=this->Nameindex.end();++i)
 //    {

@@ -13,7 +13,7 @@ public:
     ~CGeopolygon();
     list<CGeopoint*> Polygon;
     void DataLoad();
-    void Draw();
+    void Draw(CProject* proj,CSymbol symbol);
 };
 
 #endif // CGEOPOLYGON_H
